@@ -19,18 +19,18 @@ ChartJS.register(
     Legend
   );
 
-export default function WinLossByQuarterChart({winLossByQuarter}) {
+export default function WinLossByColourChart({winLossByColour}) {
     
-    const labels = Object.keys(winLossByQuarter);
-    const winsData = Object.values(winLossByQuarter).map(q => q.wins);
-    const drawsData = Object.values(winLossByQuarter).map(q => q.draws);
-    const lossesData = Object.values(winLossByQuarter).map(q => q.losses);
+    const labels = Object.keys(winLossByColour);
+    const winsData = Object.values(winLossByColour).map(q => q.wins);
+    const drawsData = Object.values(winLossByColour).map(q => q.draws);
+    const lossesData = Object.values(winLossByColour).map(q => q.losses);
 
     const options = {
         plugins: { 
             title: { 
                 display: true,
-                text: 'Results by Quarter',
+                text: 'Results by Colour',
             }
         },
         responsive: true,

@@ -128,7 +128,7 @@ export function getWinLossByColour(games, userName) {
 
     games.forEach(game => {
         const isUserWhite = getIsUserWhite(game, userName);
-        const colour = isUserWhite ? 'white' : 'black';
+        const colour = isUserWhite ? 'White' : 'Black';
 
         // Initialize entry for the quarter if it doesn't exist
         if (!winLossByColour[colour]) {
@@ -149,11 +149,11 @@ export function getWinLossByColour(games, userName) {
 }
 
 export function getWinLossByColourECO(games, userName) {
-    const winLossByColourECO = { white: {}, black: {} };
+    const winLossByColourECO = { White: {}, Black: {} };
 
     games.forEach(game => {
         const isUserWhite = getIsUserWhite(game, userName);
-        const colour = isUserWhite ? 'white' : 'black';
+        const colour = isUserWhite ? 'White' : 'Black';
 
         // ECO = Encyclopedia of Chess Openings code
         // TODO: Implement matching moves in json
@@ -164,7 +164,7 @@ export function getWinLossByColourECO(games, userName) {
         const eco = ecoField.value;
 
         // Initialize entry for the quarter if it doesn't exist
-        if (!winLossByColourECO[colour][eco]) {
+        if (!winLossByColourECO[colour].hasOwnProperty(eco)) {
             winLossByColourECO[colour][eco] = { wins: 0, losses: 0, draws: 0};
         }
 
