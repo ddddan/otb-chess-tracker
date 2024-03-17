@@ -26,6 +26,29 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.pgn-import {
+  display: flex;
+  background: white;
+  align-items: center;
+  padding: 0.5em;
+  border: 1px solid #666;
+  border-radius: 1%;
+  margin-bottom: 1rem; /* Add some margin for spacing */  
+}
+
+.pgn-import label {
+  margin-right: 10px; /* Add some spacing between label and input */
+}
+
+/* Style the input element  */
+.pgn-import input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

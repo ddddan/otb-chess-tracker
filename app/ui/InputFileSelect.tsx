@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { parse }  from 'pgn-parser';
 
-export default function InputFileSelect() {
+export default function InputFileSelect({ onShowGameTable }) {    
+
     const handlefileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -10,6 +12,7 @@ export default function InputFileSelect() {
             reader.onload = (e) => {
                 const pgnData = e.target.result.toString();
                 const games = parse(pgnData);
+                onShowGameTable();
             };
             reader.readAsText(file);            
         } else {
@@ -18,9 +21,9 @@ export default function InputFileSelect() {
     };
 
     return (
-        <form>
+        <div className="pgn-import">
             <label htmlFor = "pgnFile">Import PGN:</label>
             <input type="file" id="pgnFile" accept=".pgn" onChange={handlefileChange} />
-        </form>
+        </div>
     );
 }
