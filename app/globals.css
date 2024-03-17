@@ -26,13 +26,13 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.break {
-  flex-basis: 100%;
-  height: 0;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
-
-
+/* PGN Import */
 .pgn-import {
   display: flex;
   background: white;
@@ -58,10 +58,40 @@ body {
   @apply text-red-600 font-bold mb-2; /* Tailwind classes for styling */
 }
 
-
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Game Table */
+.game-table {
+  border: 1px solid black;
 }
+
+.game-table table {
+  table-layout: fixed;
+  background: white;
+  border-collapse: collapse;
+}
+
+.game-table th,td {
+  border: 1px solid #ccc;
+  padding: 0.5em;
+}
+
+
+.game-table tbody tr:nth-child(odd) {
+  background-color: rgb(180, 200, 220, 0.2);
+}
+
+.game-table tbody tr:nth-child(even) {
+  background-color: #e495e4;
+}
+
+.game-table td {
+  width: 1em;
+}
+
+.game-table th.name, td.name {
+  width: 10em;
+}
+
+
+
+
+
