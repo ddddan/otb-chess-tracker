@@ -70,8 +70,8 @@ body {
 }
 
 .game-table th,td {
-  border: 1px solid #ccc;
-  padding: 0.5em;
+  /* border: 1px solid #ccc; */
+  padding: 1em;
 }
 
 
@@ -80,7 +80,7 @@ body {
 }
 
 .game-table tbody tr:nth-child(even) {
-  background-color: #e495e4;
+  background-color: white;
 }
 
 .game-table td {

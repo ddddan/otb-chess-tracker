@@ -11,7 +11,7 @@ export default function Home() {
   const [showGameTable, setShowGameTable] = useState(false);
   const [gameList, setGameList] = useState([]);
 
-  const handleSelectFile = async (file) => {
+  const handleSelectFile = async (file: string) => {
     const initialGameList = await importPGN(file);
     setGameList(initialGameList);
     setShowGameTable(true);

@@ -1,18 +1,12 @@
 
-const initialColumns = [
-    {name: 'White Player', isName: true},
-    {name: 'White ELO', isName: false},
-    {name: 'Black Player', isName: true},
-    {name: 'Black ELO', isName: false},
-    {name: 'Date', isName: false},
-    {name: 'Event', isName: true},
-    {name: 'Round', isName: false},
-    {name: 'Location', isName: true},
-    {name: 'Result', isName: false},
-    {name: 'ECO', isName: false},
-];
+import { useState } from 'react';
+import { headerMap, tabulateGames } from '../lib/dataProcessing';
 
 export default function GameTable({gameList}) {
+    const initialGames = tabulateGames(headerMap, gameList);
+    const [tabGames, setTabGames] = useState(initialGames); 
+
+    const initialColumns = headerMap;
 
     return (
         <div className="game-table">
@@ -20,14 +14,18 @@ export default function GameTable({gameList}) {
                 <thead>
                     <tr>
                         {initialColumns.map((column, i) => 
-                            <th key="i" className={column.isName ? 'name': ''}>{column.name}</th>                        
+                            <th key={i} className={column.isName ? 'name': ''}>{column.name}</th>                        
                         )} 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Hello, World!</td>
-                    </tr>
+                    {tabGames.map(game => 
+                        <tr key={game.id}>
+                            {game.tags.map((tag, i) => 
+                                <td key={i} className={headerMap[i].isName ? 'name' : ''}>{tag}</td>
+                            )}
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>
