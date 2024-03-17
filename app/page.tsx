@@ -4,21 +4,24 @@ import { useState } from 'react';
  
 import Image from "next/image";
 import InputFileSelect from "@/app/ui/InputFileSelect";
-import GameTable from '@/app/ui/GameTable';
+import GameTable from "@/app/ui/GameTable";
+import { importPGN } from "@/app/lib/dataProcessing";
 
 export default function Home() {  
   const [showGameTable, setShowGameTable] = useState(false);
+  const [gameList, setGameList] = useState([]);
 
-  function handleShowGameTable() {
+  const handleSelectFile = async (file) => {
+    const initialGameList = await importPGN(file);
+    setGameList(initialGameList);
     setShowGameTable(true);
-    alert("Hello, world!");
   }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">      
       <div className="flex flex-col items-center justify-between p-6">
-        <InputFileSelect onShowGameTable={handleShowGameTable} />
-        { showGameTable && <GameTable gameData={null} />}
+        <InputFileSelect onSelectFile={handleSelectFile} />
+        { showGameTable && <GameTable gameList={gameList} />}
       </div>
 
       

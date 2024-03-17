@@ -1,15 +1,17 @@
 import { parse } from 'pgn-parser';
 
-const fs = require('node:fs');
+export async function importPGN(filePath) {
 
-export function importPGN(filePath) {
-    let data = '';
-    try {
-        data = fs.readFileSync(filePath);
-    } catch (err) {
-        console.error("importPGN: Could not read file '" + filePath +'"');
-    }
-    return data;
+    const reader = new FileReader();
+
+    return new Promise((resolve) => {
+        reader.onload = (e) => {
+            const pgnData = e.target.result.toString();
+            const games = parse(pgnData);
+            resolve(games);
+        }
+        reader.readAsText(filePath);            
+    });    
 }
 
 export function parseGames(data) {
