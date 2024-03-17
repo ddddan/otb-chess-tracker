@@ -1,0 +1,46 @@
+// 1. Display a prompt to read a PGN File
+// 2. On submit, import the file
+// 3. Parse the file into games, with headers and movelists
+// Schema:
+[
+	"headers" => {
+		"event" => "",
+		"site" => "",
+		"date" => "",
+		"round" => 0,
+		"players" => {
+			"white" => {
+				"name" => "",
+				"elo" => ""
+			},
+			"black" => {
+				"name" => "",
+				"elo" => "",
+			}
+		},		
+		"result" => "",
+		"timeControl" => "",
+		"eco" => ""
+	},
+	"movelist" = [
+		{	
+			"whiteMove" => "",
+			"blackMove" => "",
+		}
+	],
+]
+
+// 4. Display the gamelist as a table:
+// -----------------------------------------------------------------------------------------------------------------------
+// |  DATE  |       WHITE          |        ELO          |          BLACK       |          ELO        |  ECO  |  RESULT  |
+// -----------------------------------------------------------------------------------------------------------------------
+// | {date} | {players.white.name} | {players.white.elo} | {players.black.name} | {players.black.elo} | {eco} | {result} |
+// -----------------------------------------------------------------------------------------------------------------------
+
+// 5. Add visualization of games won / lost / drawn: 
+// - overall 
+// - by calendar quarter
+// - by colour
+// - by colour + eco code
+
+
