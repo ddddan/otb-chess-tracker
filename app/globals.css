@@ -60,7 +60,7 @@ body {
 
 /* Game Table */
 .game-table {
-  border: 1px solid black;
+  border: 1px solid lightgray;
 }
 
 .game-table table {

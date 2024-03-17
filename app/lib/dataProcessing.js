@@ -103,7 +103,7 @@ export function getWinLossByQuarter(games, userName) {
     games.forEach(game => {
         const gameDateHeader = game.headers.find(header => header.name === 'Date');
         const gameDate = new Date(gameDateHeader.value);
-        const quarter = gameDate.getFullYear.toString() + "Q" + Math.floor((gameDate.getMonth() + 3) / 3).toString();
+        const quarter = gameDate.getFullYear().toString() + "Q" + Math.floor((gameDate.getMonth() + 3) / 3).toString();
 
         // Initialize entry for the quarter if it doesn't exist
         if (!winLossByQuarter[quarter]) {

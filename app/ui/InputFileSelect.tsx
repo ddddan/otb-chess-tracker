@@ -17,9 +17,9 @@ export default function InputFileSelect({ onSelectFile }) {
     };
 
     return (
-        <div className="pgn-import">
+        <div className="p-6 max-w-xl mx-auto my-3 bg-white rounded-xl shadow-lg flex items-center space-x-4">
             <label htmlFor = "pgnFile">Import PGN:</label>
-            <input type="file" id="pgnFile" accept=".pgn" onChange={handlefileChange} />
+            <input className="border-black" type="file" id="pgnFile" accept=".pgn" onChange={handlefileChange} />
             { errorMessage && <p className="error">{errorMessage}</p> }
         </div>
         

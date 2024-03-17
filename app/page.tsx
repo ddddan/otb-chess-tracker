@@ -22,7 +22,7 @@ export default function Home() {
     const initialGameList = await importPGN(file, userName);
     setGameList(initialGameList); 
     
-    const initialWinLossByQuarter = getWinLossByQuarter(gameList, userName);
+    const initialWinLossByQuarter = getWinLossByQuarter(initialGameList, userName);
     setWinLossByQuarter(initialWinLossByQuarter);
 
     setShowResults(true);
