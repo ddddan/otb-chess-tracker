@@ -39,8 +39,8 @@ export default function WinLossByQuarterChart({winLossByQuarter}) {
                 stacked: true,                
             },
             y: {
-                stacked: true,
-            }
+                stacked: true,                
+            },
         }
     };
 

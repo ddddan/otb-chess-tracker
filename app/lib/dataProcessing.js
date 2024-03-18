@@ -1,4 +1,8 @@
 import { parse } from 'pgn-parser';
+import * as ecoData from './eco.json';
+
+// This will be loaded the first time 
+var ecoLookup = {};
 
 export async function importPGN(filePath, userName) {
 
@@ -181,3 +185,26 @@ export function getWinLossByColourECO(games, userName) {
     return winLossByColourECO;
 }
 
+export function getOpeningFromECO(eco) {
+    // Create the lookup if does not exist
+    if (Object.keys(ecoLookup).length === 0) {
+        populateEcoLookup();
+    }
+    if (ecoLookup.hasOwnProperty(eco)) {
+        return ecoLookup[eco];
+    } else {
+        return "<Unknown>";
+    }
+    
+}
+
+function populateEcoLookup() {
+    // NOTE: This keeps only the "a" or unspecified SCID codes for simplicity
+    for(let i = 0; i < ecoData.length; i++) {
+        const eco = ecoData[i].eco;
+        const scidEco = ecoData[i].scid;
+        if (!ecoLookup[eco] && !!scidEco && (scidEco.length == 3 || scidEco.endsWith('a') )) {
+            ecoLookup[eco] = ecoData[i].name;
+        }
+    }
+}

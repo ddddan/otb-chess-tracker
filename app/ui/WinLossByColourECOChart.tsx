@@ -9,6 +9,7 @@ import {
     Legend,
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { getOpeningFromECO } from '../lib/dataProcessing';
 
 ChartJS.register(
     CategoryScale,
@@ -20,17 +21,31 @@ ChartJS.register(
   );
 
 export default function WinLossByColourECOChart({winLossByColourECO, colour}) {
-   
-    const labels = Object.keys(winLossByColourECO[colour]);
-    const winsData = Object.values(winLossByColourECO[colour]).map(q => q.wins);
-    const drawsData = Object.values(winLossByColourECO[colour]).map(q => q.draws);
-    const lossesData = Object.values(winLossByColourECO[colour]).map(q => q.losses);
+
+    const sortedKeys = Object.keys(winLossByColourECO[colour]).sort();
+    const sortedData = sortedKeys.map(key => winLossByColourECO[colour][key]);
+       
+    const labels = sortedKeys;
+    const winsData = sortedData.map(c => c.wins);
+    const drawsData = sortedData.map(c => c.draws);
+    const lossesData = sortedData.map(c => c.losses);
 
     const options = {
         plugins: { 
             title: { 
                 display: true,
                 text: 'Results by ECO (' + colour + ')',
+            },
+            tooltip: {
+                callbacks: {
+                    title: function(context) {
+                        let title = context[0].label || '';
+
+                        const opening = getOpeningFromECO(title);
+
+                        return title + ": " + opening;
+                    }
+                }
             }
         },
         responsive: true,
@@ -40,7 +55,10 @@ export default function WinLossByColourECOChart({winLossByColourECO, colour}) {
             },
             y: {
                 stacked: true,
-            }
+                ticks: {
+                    stepSize: 1
+                }
+            },
         }
     };
 
