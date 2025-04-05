@@ -5,10 +5,11 @@ import { useState } from 'react';
 import Image from "next/image";
 import InputFileSelect from "@/app/ui/InputFileSelect";
 import GameTable from "@/app/ui/GameTable";
-import { importPGN, getWinLossByQuarter, getWinLossByColour, getWinLossByColourECO } from "@/app/lib/dataProcessing";
+import { importPGN, getWinLossByQuarter, getWinLossByColour, getWinLossByColourECO, getWinLossByQuarterRD } from "@/app/lib/dataProcessing";
 import WinLossByQuarterChart from './ui/WinLossByQuarterChart';
 import WinLossByColourChart from './ui/WinLossByColourChart';
 import WinLossByColourECOChart from './ui/WinLossByColourECOChart';
+import WinLossByQuarterRDChart from './ui/WinLossByQuarterRDChart';
 
 /****/
 const initialUserName = 'Mullin, Daniel'; // :)
@@ -21,6 +22,7 @@ export default function Home() {
   const [winLossByQuarter, setWinLossByQuarter] = useState({});
   const [winLossByColour, setWinLossByColour] = useState({});
   const [winLossByColourECO, setWinLossByColourECO] = useState({});
+  const [winLossByQuarterRD, setWinLossByQuarterRD] = useState({});
 
   const handleSelectFile = async (file: string) => {
     const initialGameList = await importPGN(file, userName);
@@ -34,6 +36,9 @@ export default function Home() {
 
     const initialWinLossByColourECO = getWinLossByColourECO(initialGameList, userName);
     setWinLossByColourECO(initialWinLossByColourECO);
+
+    const initialWinLossByQuarterRD = getWinLossByQuarterRD(initialGameList, userName);
+    setWinLossByQuarterRD(initialWinLossByQuarterRD);
 
     setShowResults(true);
   }
@@ -51,6 +56,7 @@ export default function Home() {
       <WinLossByColourChart winLossByColour={winLossByColour} />
       <WinLossByColourECOChart winLossByColourECO={winLossByColourECO} colour="White" />
       <WinLossByColourECOChart winLossByColourECO={winLossByColourECO} colour="Black" />
+      <WinLossByQuarterRDChart winLossByQuarterRD={winLossByQuarterRD} />
       </>
     }
     </main>

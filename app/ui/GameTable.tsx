@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { getOpeningFromECO, headerMap, tabulateGames } from '../lib/dataProcessing';
+import React from 'react';
 
 
 interface Game {
@@ -35,23 +36,23 @@ export default function GameTable({ gameList }: GameTableProps) {
                     {tabGames.map(game => 
                         <tr key={game.id}>
                             {game.tags.map((tag, i) => 
-                            <>
-                                { headerMap[i].name === "ECO" ?
-                                <td 
+                                <React.Fragment key={i}>
+                                    { headerMap[i].name === "ECO" ?
+                                    <td 
+                                        key={i} 
+                                        className={headerMap[i].isName ? 'name' : ''}
+                                        data-tooltip-id="eco-tooltip" 
+                                        data-tooltip-content={tag + ': ' + game.opening}>
+                                            {tag}                                
+                                    </td>
+                                    : 
+                                    <td 
                                     key={i} 
-                                    className={headerMap[i].isName ? 'name' : ''}
-                                    data-tooltip-id="eco-tooltip" 
-                                    data-tooltip-content={tag + ': ' + game.opening}>
-                                        {tag}                                
-                                </td>
-                                : 
-                                <td 
-                                 key={i} 
-                                 className={headerMap[i].isName ? 'name' : ''}>
-                                        {tag}                                
-                                </td>
-                                }
-                              </>                                      
+                                    className={headerMap[i].isName ? 'name' : ''}>
+                                            {tag}                                
+                                    </td>
+                                    }
+                                </React.Fragment>                                      
                             )}
                         </tr>
                     )}

@@ -51,8 +51,7 @@ export default function WinLossByColourECOChart({winLossByColourECO, colour}: { 
             },
             tooltip: {
                 callbacks: {
-                    title: function(context: TooltipItem<'bar'>[]) {
-                        console.log(context);
+                    title: function(context: TooltipItem<'bar'>[]) {                        
                         let title = context[0].label || '';
 
                         const opening = getOpeningFromECO(title);

@@ -95,16 +95,52 @@ function getIsUserWhite(game, userName) {
 
 function getGameResult(game, userName) {
     const gameResultHeader = game.headers.find(header => header.name === 'Result');
-        const gameResult = gameResultHeader.value;
-        const isUserWhite = getIsUserWhite(game, userName);
+    const gameResult = gameResultHeader.value;
+    const isUserWhite = getIsUserWhite(game, userName);
 
-        if (gameResult === '1/2-1/2') { // Draw
-            return 'draw';
-        } else if (gameResult === '1-0' && isUserWhite || gameResult === '0-1' && !isUserWhite) { // Win
-            return 'win';
-        } else { // Loss  | /| || |_
-            return 'loss';
-        }
+    if (gameResult === '1/2-1/2') { // Draw
+        return 'draw';
+    } else if (gameResult === '1-0' && isUserWhite || gameResult === '0-1' && !isUserWhite) { // Win
+        return 'win';
+    } else { // Loss  | /| || |_
+        return 'loss';
+    }
+}
+
+function getRatingDifferential(game, userName) {
+    const isUserWhite = getIsUserWhite(game, userName);
+
+
+    const whiteEloHeader = game.headers.find(header => header.name === 'WhiteElo');
+    const whiteElo = whiteEloHeader.value == 'UNR' ? 1200 : parseInt(whiteEloHeader.value); // Default unrated to 1200
+    const blackEloHeader = game.headers.find(header => header.name === 'BlackElo');
+    const blackElo = blackEloHeader.value == 'UNR' ? 1200 : parseInt(blackEloHeader.value); // Default unrated to 1200
+
+    if (isUserWhite) {
+        return blackElo - whiteElo;
+    } else {
+        return whiteElo - blackElo;
+    }
+}
+
+function getRatingDifferentialBand(ratingDifferential) {
+    if (ratingDifferential < -300) {
+        return 'Less than -300';
+    } else if (ratingDifferential < -200) {
+        return '-300 to -200';
+    } else if (ratingDifferential < -100) {
+        return '-200 to -100';
+    } else if (ratingDifferential < 0) {
+        return '-100 to 0';
+    } else if (ratingDifferential < 100) {
+        return '0 to 100';
+    } else if (ratingDifferential < 200) {
+        return '100 to 200';
+    } else if (ratingDifferential < 300) {
+        return '200 to 300';
+    } else {
+        return 'Greater than 300';
+    }
 }
 
 export function getWinLossByQuarter(games, userName) {
@@ -128,6 +164,42 @@ export function getWinLossByQuarter(games, userName) {
             winLossByQuarter[quarter].wins++;
         } else { 
             winLossByQuarter[quarter].losses++;
+        }
+    });
+    return winLossByQuarter;
+}
+
+export function getWinLossByQuarterRD(games, userName) {
+    const winLossByQuarter = {};
+
+    games.forEach(game => {
+        const gameDateHeader = game.headers.find(header => header.name === 'Date');
+        const gameDate = new Date(gameDateHeader.value);
+        const quarter = gameDate.getFullYear().toString() + "Q" + Math.floor((gameDate.getMonth() + 3) / 3).toString();
+        const ratingDifferential = getRatingDifferential(game, userName);
+        const ratingDifferentialBand = getRatingDifferentialBand(ratingDifferential);   
+
+        if (!winLossByQuarter[quarter]) {
+            winLossByQuarter[quarter] = {
+                'Less than -300': { wins: 0, losses: 0, draws: 0 },
+                '-300 to -200': { wins: 0, losses: 0, draws: 0 },
+                '-200 to -100': { wins: 0, losses: 0, draws: 0 },
+                '-100 to 0': { wins: 0, losses: 0, draws: 0 },
+                '0 to 100': { wins: 0, losses: 0, draws: 0 },
+                '100 to 200': { wins: 0, losses: 0, draws: 0 },
+                '200 to 300': { wins: 0, losses: 0, draws: 0 },
+                'Greater than 300': { wins: 0, losses: 0, draws: 0 }
+            };
+        }
+
+        // Update win/loss/draw counts based on games result
+        const gameResult = getGameResult(game, userName);        
+        if (gameResult === 'draw') { 
+            winLossByQuarter[quarter][ratingDifferentialBand].draws++;
+        } else if (gameResult === 'win') { 
+            winLossByQuarter[quarter][ratingDifferentialBand].wins++;
+        } else { 
+            winLossByQuarter[quarter][ratingDifferentialBand].losses++;
         }
     });
     return winLossByQuarter;
