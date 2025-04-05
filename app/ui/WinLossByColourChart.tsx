@@ -19,7 +19,15 @@ ChartJS.register(
     Legend
   );
 
-export default function WinLossByColourChart({winLossByColour}) {
+interface WinLossByColour {
+    [key: string]: {
+        wins: number;
+        draws: number;
+        losses: number;
+    };
+}
+
+export default function WinLossByColourChart({winLossByColour}: { winLossByColour: WinLossByColour }) {
     
     const labels = Object.keys(winLossByColour);
     const winsData = Object.values(winLossByColour).map(q => q.wins);

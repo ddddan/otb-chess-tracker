@@ -6,6 +6,7 @@ import {
     BarElement,
     Title,
     Tooltip,
+    TooltipItem,
     Legend,
   } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
@@ -20,7 +21,19 @@ ChartJS.register(
     Legend
   );
 
-export default function WinLossByColourECOChart({winLossByColourECO, colour}) {
+interface WinLossData {
+    wins: number;
+    draws: number;
+    losses: number;
+}
+
+interface WinLossByColourECO {
+    [colour: string]: {
+        [eco: string]: WinLossData;
+    };
+}
+
+export default function WinLossByColourECOChart({winLossByColourECO, colour}: { winLossByColourECO: WinLossByColourECO; colour: string }) {
 
     const sortedKeys = Object.keys(winLossByColourECO[colour]).sort();
     const sortedData = sortedKeys.map(key => winLossByColourECO[colour][key]);
@@ -38,7 +51,8 @@ export default function WinLossByColourECOChart({winLossByColourECO, colour}) {
             },
             tooltip: {
                 callbacks: {
-                    title: function(context) {
+                    title: function(context: TooltipItem<'bar'>[]) {
+                        console.log(context);
                         let title = context[0].label || '';
 
                         const opening = getOpeningFromECO(title);

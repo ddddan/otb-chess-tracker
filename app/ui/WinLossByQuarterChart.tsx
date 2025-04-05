@@ -19,7 +19,15 @@ ChartJS.register(
     Legend
   );
 
-export default function WinLossByQuarterChart({winLossByQuarter}) {
+interface QuarterData {
+    [key: string]: {
+        wins: number;
+        draws: number;
+        losses: number;
+    };
+}
+
+export default function WinLossByQuarterChart({winLossByQuarter}: { winLossByQuarter: QuarterData }) {
     
     const labels = Object.keys(winLossByQuarter);
     const winsData = Object.values(winLossByQuarter).map(q => q.wins);

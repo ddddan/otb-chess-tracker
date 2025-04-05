@@ -1,8 +1,20 @@
 
 import { useState } from 'react';
-import { headerMap, tabulateGames } from '../lib/dataProcessing';
+import { Tooltip } from 'react-tooltip';
+import { getOpeningFromECO, headerMap, tabulateGames } from '../lib/dataProcessing';
 
-export default function GameTable({gameList}) {
+
+interface Game {
+    id: string;
+    tags: string[];
+    opening?: string;
+}
+
+interface GameTableProps {
+    gameList: Game[];
+}
+
+export default function GameTable({ gameList }: GameTableProps) {
     const initialGames = tabulateGames(headerMap, gameList);
     const [tabGames, setTabGames] = useState(initialGames); 
 
@@ -10,6 +22,7 @@ export default function GameTable({gameList}) {
 
     return (
         <div className="game-table">
+            <Tooltip place="right" id="eco-tooltip" />
             <table>
                 <thead>
                     <tr>
@@ -22,7 +35,23 @@ export default function GameTable({gameList}) {
                     {tabGames.map(game => 
                         <tr key={game.id}>
                             {game.tags.map((tag, i) => 
-                                <td key={i} className={headerMap[i].isName ? 'name' : ''}>{tag}</td>
+                            <>
+                                { headerMap[i].name === "ECO" ?
+                                <td 
+                                    key={i} 
+                                    className={headerMap[i].isName ? 'name' : ''}
+                                    data-tooltip-id="eco-tooltip" 
+                                    data-tooltip-content={tag + ': ' + game.opening}>
+                                        {tag}                                
+                                </td>
+                                : 
+                                <td 
+                                 key={i} 
+                                 className={headerMap[i].isName ? 'name' : ''}>
+                                        {tag}                                
+                                </td>
+                                }
+                              </>                                      
                             )}
                         </tr>
                     )}

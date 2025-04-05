@@ -1,5 +1,5 @@
 import { parse } from 'pgn-parser';
-import * as ecoData from './eco.json';
+import ecoData from './eco.json';
 
 // This will be loaded the first time 
 var ecoLookup = {};
@@ -48,8 +48,10 @@ export function tabulateGames(headers, gameList) {
         let tabGame = {
             id: gameList[i].id, 
             tags: [],
-            result: gameList[i].result
+            result: gameList[i].result,
+            opening: '',
         };
+        // Add the data from the tags
         for (let j = 0; j < headers.length; j++) {
             const headerField = gameList[i].headers.find(field => field.name === headers[j].sourceHeader);
             if (!headerField) {
@@ -58,6 +60,10 @@ export function tabulateGames(headers, gameList) {
                 tabGame.tags.push(headerField.value);
             }            
         }
+        // Add the opening name
+        const ecoHeader = gameList[i].headers.find(field => field.name === 'ECO');        
+        tabGame.opening = getOpeningFromECO(ecoHeader.value);
+        // Push to the array
         tabGames.push(tabGame);
     }
     return tabGames;
