@@ -24,8 +24,9 @@ export default function Home() {
   const [winLossByColourECO, setWinLossByColourECO] = useState({});
   const [winLossByQuarterRD, setWinLossByQuarterRD] = useState({});
 
-  const handleSelectFile = async (file: string) => {
-    const initialGameList = await importPGN(file, userName);
+  const handleSelectFile = async (file: File) => {
+    const fileContent = await file.text();
+    const initialGameList = await importPGN(fileContent, userName);
     setGameList(initialGameList); 
     
     const initialWinLossByQuarter = getWinLossByQuarter(initialGameList, userName);

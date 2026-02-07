@@ -1,13 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { parse }  from 'pgn-parser';
 
-export default function InputFileSelect({ onSelectFile }) {    
+interface InputFileSelectProps {
+    onSelectFile: (file: File) => void;
+}
+
+export default function InputFileSelect({ onSelectFile }: InputFileSelectProps) {    
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handlefileChange = (e) => {        
-        const file = e.target.files[0];
+    const handlefileChange = (e: ChangeEvent<HTMLInputElement>) => {        
+        const file = e.target.files?.[0];
         if (file && file.name.endsWith(".pgn")) {
             setErrorMessage('');
             onSelectFile(file);
