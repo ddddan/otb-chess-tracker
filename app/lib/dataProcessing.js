@@ -4,7 +4,7 @@ import ecoData from './eco.json';
 // This will be loaded the first time 
 var ecoLookup = {};
 
-export async function importPGN(filePath, userName) {
+export async function importPGN(file, userName) {
 
     const reader = new FileReader();
 
@@ -14,7 +14,7 @@ export async function importPGN(filePath, userName) {
             const games = parseGames(pgnData, userName);
             resolve(games);
         }
-        reader.readAsText(filePath);            
+        reader.readAsText(file);            
     });    
 }
 
