@@ -1,6 +1,7 @@
 {
   "name": "OTB Chess Tracker",
   "image": "node:18-alpine",
+  "remoteUser": "node",
   "forwardPorts": [3000],
   "customizations": {
     "vscode": {
@@ -10,6 +11,6 @@
       ]
     }
   },
-  "postCreateCommand": "npm install",
+  "postCreateCommand": "npm config set --global unsafe-perm true && npm install",
   "onCreateCommand": "apk add --no-cache git && sysctl -w fs.inotify.max_user_watches=524288 || true"
 }
