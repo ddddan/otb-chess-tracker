@@ -1,6 +1,6 @@
 {
   "name": "OTB Chess Tracker",
-  "image": "node:18-alpine",
+  "image": "node:20-alpine",
   "forwardPorts": [3000],
   "customizations": {
     "vscode": {
