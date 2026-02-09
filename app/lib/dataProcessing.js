@@ -61,8 +61,8 @@ export function tabulateGames(headers, gameList) {
             }            
         }
         // Add the opening name
-        const ecoHeader = gameList[i].headers.find(field => field.name === 'ECO');        
-        tabGame.opening = getOpeningFromECO(ecoHeader.value);
+        const ecoHeader = gameList[i].headers.find(field => field.name === 'ECO');
+        tabGame.opening = ecoHeader ? getOpeningFromECO(ecoHeader.value) : '{Unknown}';
         // Push to the array
         tabGames.push(tabGame);
     }
@@ -112,9 +112,9 @@ function getRatingDifferential(game, userName) {
 
 
     const whiteEloHeader = game.headers.find(header => header.name === 'WhiteElo');
-    const whiteElo = whiteEloHeader.value == 'UNR' ? 1200 : parseInt(whiteEloHeader.value); // Default unrated to 1200
+    const whiteElo = (!whiteEloHeader || whiteEloHeader.value == 'UNR') ? 1200 : parseInt(whiteEloHeader.value); // Default unrated or missing to 1200
     const blackEloHeader = game.headers.find(header => header.name === 'BlackElo');
-    const blackElo = blackEloHeader.value == 'UNR' ? 1200 : parseInt(blackEloHeader.value); // Default unrated to 1200
+    const blackElo = (!blackEloHeader || blackEloHeader.value == 'UNR') ? 1200 : parseInt(blackEloHeader.value); // Default unrated or missing to 1200
 
     if (isUserWhite) {
         return blackElo - whiteElo;
