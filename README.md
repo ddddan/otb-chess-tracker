@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# OTB Chess Tracker
 
-## Getting Started
+Offline / over-the-board (OTB) chess tracker for analyzing game results and visualizing patterns in your local collection of PGN games. Built with Next.js, React and Chart.js.
 
-First, run the development server:
+## Features
+
+- Import a PGN file and visualize wins/losses by colour, quarter, and ECO codes.
+- Interactive charts using Chart.js and react-chartjs-2.
+- Lightweight data processing in `app/lib/dataProcessing.js` for parsing and aggregating PGN data.
+
+## Quick Start
+
+Requirements: Node.js (18+), npm.
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Build for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+Linting:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Docker
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Build and run with Docker (image exposes the app on port 3000):
 
-## Deploy on Vercel
+```bash
+docker build -t otb-chess-tracker .
+docker run -p 3000:3000 otb-chess-tracker
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `app/` — Next.js application (routes, global styles, layout).
+- `app/lib/dataProcessing.js` — PGN parsing and aggregation utilities.
+- `app/lib/tempData/tempGames.pgn` — example/imported PGN file used for quick testing.
+- `app/ui/` — React UI components (e.g. GameTable, InputFileSelect, chart components).
+- `public/` — static assets.
+
+See these files directly:
+
+- [app/page.tsx](app/page.tsx)
+- [app/lib/dataProcessing.js](app/lib/dataProcessing.js)
+- [app/lib/tempData/tempGames.pgn](app/lib/tempData/tempGames.pgn)
+- [app/ui/GameTable.tsx](app/ui/GameTable.tsx)
+- [app/ui/InputFileSelect.tsx](app/ui/InputFileSelect.tsx)
+
+## Development notes
+
+- PGN parsing is handled with the `pgn-parser` dependency; aggregated datasets are produced in `app/lib/dataProcessing.js` and consumed by chart components in `app/ui`.
+- If you add large PGN files during development, keep them outside version control or add them to `.gitignore`.
+
+## Available Scripts
+
+From the project root, these npm scripts are available:
+
+- `dev` — runs the Next.js dev server.
+- `build` — builds the production bundle.
+- `start` — starts the built production server.
+- `lint` — runs Next.js linting.
+
+## Contributing
+
+Feel free to open issues or pull requests. For small improvements (typos, docs, minor UI fixes) create a branch and submit a PR.
+
+## License
+
+This repository does not include a license file. Add one if you'd like to make the project open source.
