@@ -1,7 +1,7 @@
 {
   "name": "OTB Chess Tracker",
   "image": "node:20-alpine",
-  "forwardPorts": [3000],
+  "forwardPorts": [8080],
   "customizations": {
     "vscode": {
       "extensions": [
