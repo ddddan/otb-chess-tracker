@@ -21,10 +21,24 @@ export async function importPGN(file, userName) {
 function parseGames(pgnData, userName) {
     let games = parse(pgnData);
     // Append IDs
+    let invalidGames = [];
     for(let i = 0; i < games.length; i++) {
         games[i].id = i;
+        if (!games[i].headers || games[i].headers.length === 0) {
+            games[i].headers = [];
+            console.warn(`Game ${i} has no headers, skipping...`);
+            invalidGames.push(i);
+            continue; 
+        } 
+        if (!games[i].moves || games[i].moves.length === 0) {
+            console.warn(`Game ${i} has no moves, skipping...`);
+            invalidGames.push(i);
+            continue; 
+        }
+
         games[i].result = getGameResult(games[i], userName);
     }
+    games = games.filter(game => !invalidGames.includes(game.id));
     return games;
  }
 
